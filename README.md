@@ -1,5 +1,5 @@
-# VMware-Exporter
-A working in progress VMware Exporter developed in Spring boot and for vSphere 8
+# Java VMware Prometheus Exporter
+A working in progress VMware Prometheus Exporter developed in Java Spring boot and for vSphere 8
 
 ## What is?
 This is a VMware exporter developed in Java Spring boot for vSphere 8. In the repository are included the external libraries of JAVA VMware SDK.
