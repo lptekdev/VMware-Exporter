@@ -10,7 +10,8 @@ At this time the exporter can collect:
  - Host total CPUs
  - Host total memory
 
-The exporter caches all the values, and collection interval must be adjusted/defined (in seconds). For that, you use the vsphere.properties file to set the username, password, vCenter and the interval for the collection of the metrics.
+The exporter caches all the values, and collection interval must be adjusted/defined (in seconds). The values are cached because I will also collect vSAN metrics, and from my experience those took some time which can translate in Prometheus scrape timeout and metrics collection failure. 
+To configure the vCenter, credentials and collection interval in seconds, you use the vsphere.properties file.
 
 ## Run as container
 The exporter can run locally and as a docker container. A docker compose file is also present in this repository, as the Dockerfile to build the docker image.
