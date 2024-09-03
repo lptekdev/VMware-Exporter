@@ -10,7 +10,7 @@ At this time the exporter can collect:
  - Host total CPUs
  - Host total memory
 
-The exporter caches all the values, but collection interval can be adjusted/defined. For that, you use the vsphere.properties file to set the username, password, vCenter and the interval for the collection of the metrics.
+The exporter caches all the values, and collection interval must be adjusted/defined (in seconds). For that, you use the vsphere.properties file to set the username, password, vCenter and the interval for the collection of the metrics.
 
 ## Run as container
 The exporter can run locally and as a docker container. A docker compose file is also present in this repository, as the Dockerfile to build the docker image.

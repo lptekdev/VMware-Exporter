@@ -1,0 +1,50 @@
+image: maven:latest
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH && $CI_OPEN_MERGE_REQUESTS
+      when: never
+    - if: $CI_COMMIT_BRANCH == 'main'
+
+stages:
+  - build
+
+cache:
+  paths:
+    - .m2/repository
+
+
+
+build:
+  stage: build
+  script:
+    - pwd
+    - ls -l
+    #- mvn clean
+    #- mkdir -p ~/.m2    
+    #- ls -l ~/.m2
+    #- ls -l ~/.m2/repository
+    #- cat ~/.m2/settings-docker.xml
+    #- ls lib
+    #- ls lib |grep oidc-oauth2-sdk-0.0.1
+    - mvn install:install-file -Dfile=lib/oidc-oauth2-sdk-0.0.1.jar -DgroupId=com.vmware.vapi -DartifactId=oidc-oauth2-sdk -Dversion=0.0.1 -Dpackaging=jar
+    - mvn install:install-file -Dfile=lib/vcenter-bindings-4.2.0.jar -DgroupId=com.vmware -DartifactId=vcenter-bindings -Dversion=4.2.0 -Dpackaging=jar 
+    - mvn install:install-file -Dfile=lib/vim25.jar -DgroupId=com.vmware.vim25 -DartifactId=vim25 -Dversion=8.0.0.1 -Dpackaging=jar 
+    - mvn install:install-file -Dfile=lib/vapi-runtime-2.44.0.jar -DgroupId=com.vmware.vapi -DartifactId=vapi-runtime -Dversion=2.44.0 -Dpackaging=jar 
+    - mvn install:install-file -Dfile=lib/vapi-authentication-2.44.0.jar -DgroupId=com.vmware.vapi -DartifactId=vapi-authentication -Dversion=2.44.0 -Dpackaging=jar 
+    - mvn install:install-file -Dfile=lib/vapi-samltoken-2.44.0.jar -DgroupId=com.vmware.vapi -DartifactId=vapi-samltoken -Dversion=2.44.0 -Dpackaging=jar 
+    - mvn install:install-file -Dfile=lib/vapi-vmc-sdk-2.51.0.jar -DgroupId=com.vmware.vapi -DartifactId=vapi-vmc-sdk -Dversion=2.51.0 -Dpackaging=jar 
+    - mvn install:install-file -Dfile=lib/ssoclient.jar -DgroupId=com.vmware.sso -DartifactId=ssoclient -Dversion=8.0.0.1 -Dpackaging=jar 
+    - mvn install:install-file -Dfile=lib/vcenter-lookupservice-1.0.0.jar -DgroupId=com.vmware.vcenter.lookup -DartifactId=vcenter-lookupservice -Dversion=1.0.0 -Dpackaging=jar 
+    - ls -l ~/.m2/repository
+    - mvn install
+    - ls -l target/
+  artifacts:
+    name: "$CI_COMMIT_REF_NAME"
+    paths:
+        - target/java_exporter-*.jar
+        - ./Dockerfile
+        - ./docker-compose.yml
+  tags: [docker_runner]
+
